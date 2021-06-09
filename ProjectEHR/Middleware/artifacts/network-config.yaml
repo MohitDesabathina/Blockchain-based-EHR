@@ -1,0 +1,141 @@
+name: "Basic"
+x-type: "hlfv1"
+description: "network"
+version: "1.0"
+channels:
+  mychannel:
+    orderers:
+      - orderer.example.com
+
+    peers:
+      peer0.org1.example.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+      peer1.org1.example.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+      peer0.org2.example.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+      peer1.org2.example.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+    chaincodes:
+      - myc6:v0
+
+organizations:
+  Org1:
+    mspid: Org1MSP
+
+    peers:
+      - peer0.org1.example.com
+      - peer1.org1.example.com
+
+    certificateAuthorities:
+      - ca.org1.example.com
+
+    adminPrivateKey:
+      path: ../multi/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/9503596c8b2c65b602125ecde14e770ed027e1120268bba09ce3137430685e93_sk
+    signedCert:
+      path: ../multi/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem
+
+  Org2:
+    mspid: Org2MSP
+
+    peers:
+      - peer0.org2.example.com
+      - peer1.org2.example.com
+
+    certificateAuthorities:
+      - ca.org2.example.com
+
+    adminPrivateKey:
+      path: ../multi/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore/be904d8b6e8a0234b4a8e3453e937b06dfc9ebb4dbacda22c69ae028ac50f6a2_sk
+    signedCert:
+      path: ../multi/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts/Admin@org2.example.com-cert.pem
+
+orderers:
+  orderer.example.com:
+    url: grpcs://localhost:7050
+    grpcOptions:
+      ssl-target-name-override: orderer.example.com
+    tlsCACerts:
+      path: ../multi/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt
+
+#
+# List of peers to send various requests to, including endorsement, query
+# and event listener registration.
+#
+peers:
+  peer0.org1.example.com:
+    url: grpcs://localhost:7051
+
+    grpcOptions:
+      ssl-target-name-override: peer0.org1.example.com
+    tlsCACerts:
+      path: ../multi/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+
+  peer1.org1.example.com:
+    url: grpcs://localhost:8051
+
+    grpcOptions:
+      ssl-target-name-override: peer1.org1.example.com
+    tlsCACerts:
+      path: ../multi/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/ca.crt
+
+  peer0.org2.example.com:
+    url: grpcs://localhost:9051
+
+    grpcOptions:
+      ssl-target-name-override: peer0.org2.example.com
+    tlsCACerts:
+      path: ../multi/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
+
+  peer1.org2.example.com:
+    url: grpcs://localhost:10051
+
+    grpcOptions:
+      ssl-target-name-override: peer1.org2.example.com
+    tlsCACerts:
+      path: ../multi/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/ca.crt
+#
+# Fabric-CA is a special kind of Certificate Authority provided by Hyperledger Fabric which allows
+# certificate management to be done via REST APIs. Application may choose to use a standard
+# Certificate Authority instead of Fabric-CA, in which case this section would not be specified.
+#
+certificateAuthorities:
+  ca.org1.example.com:
+    url: https://localhost:7054
+    httpOptions:
+      verify: false
+    tlsCACerts:
+      path: ../multi/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem
+
+    registrar:
+      - enrollId: admin
+        enrollSecret: adminpw
+    caName: ca.org1.example.com
+
+  ca.org2.example.com:
+    url: https://localhost:8054
+    httpOptions:
+      verify: false
+    tlsCACerts:
+      path:../multi/crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem
+
+    registrar:
+      - enrollId: admin
+        enrollSecret: adminpw
+    caName: ca.org2.example.com
