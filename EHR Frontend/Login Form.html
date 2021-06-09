@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="Login Form.css">
+    <link href="https://fonts.googleapis.com/css?family=Coiny" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville" rel="stylesheet">
+  </head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+         $(document).ready(function(){
+			 $('#triggerStartApplication').click(function() {
+
+				 
+				 let data = {
+						"username":"mohit",
+							"orgName":"Org1"
+							};
+				 
+				 let url= "http://localhost:4000/users";
+				 
+				 var xhr = new XMLHttpRequest();
+				xhr.open("POST", url, true);
+				xhr.setRequestHeader('Content-Type', 'application/json');
+			//	xhr.setRequestHeader('Authorization', 'Bearer'+t.token);
+				xhr.send(JSON.stringify(data));
+				
+			xhr.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+     var r = this.responseText;
+	 var t = JSON.parse(r);
+	 var someVarName =t.token;
+	 localStorage.setItem("someVarKey", someVarName);
+    }
+	
+	}
+				 
+			
+			 
+		
+			 });
+			 
+			});
+</script>
+  <body>
+    <form class="container">
+      <h1>DOCTOR'S LOGIN</h1>
+      <input type="text" name="" placeholder="Username">
+      <input type="password" name="" placeholder="Password">
+  <button id="triggerStartApplication" formaction="Options.html" style="width: 90px;height: 35px;margin-left: 7px;margin-bottom: 7px;color: black;border-radius: 8px;background: cornsilk;">Submit</button>
+    </form>
+  </body>
+</html>

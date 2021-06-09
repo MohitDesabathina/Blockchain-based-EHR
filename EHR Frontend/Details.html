@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<title>Entering Patient's Data</title>
+		<link rel="stylesheet" href="Details.css">
+	</head>	
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+		 $(document).ready(function(){
+			 $('#triggerStartApplication').click(function() {
+
+				 var token = 'Bearer'+' '+ localStorage.getItem("someVarKey");
+				console.log("details");
+				var pid = document.getElementById('did').value;
+				var name = document.getElementById('pname').value;
+				var did = document.getElementById('pid').value;
+				var age = document.getElementById('age').value;
+				var gender = document.getElementById('male').value;
+				var prescription = document.getElementById('pres').value;
+				var docname = document.getElementById('dname').value;
+				var amount = document.getElementById('amount').value;
+				 let data = {
+						    "fcn": "publishRecord",
+                                                     "peers": ["peer0.org1.example.com","peer0.org2.example.com"],
+                                                     "chaincodeName":"myc3",
+                                                     "channelName": "mychannel",
+                                                     "args": [did,name,pid,age,gender,prescription,docname,amount]	
+						};
+				 
+				 let url= "http://localhost:4000/channels/mychannel/chaincodes/myc3";
+				 
+				 var xhr = new XMLHttpRequest();
+				xhr.open("POST", url, true);
+				xhr.setRequestHeader('Content-Type', 'application/json');
+				xhr.setRequestHeader('Authorization',token);
+				xhr.send(JSON.stringify(data));
+				
+			xhr.onreadystatechange = function() {
+                       if (this.readyState == 4 && this.status == 200) {
+     var r = this.responseText;
+	 var t = JSON.parse(r) }
+	
+	}		
+		
+			 });
+			 
+			});
+	
+	function validateForm()
+	{
+		var x = document.forms["myForm"]["pname"].value;
+		if (x == "") 
+		{
+		alert("Name must be filled out");
+		return false;
+		}
+		else if(!isNaN(x))
+		{
+		alert("Name Shouldnt contain a numeric value....!!!");
+		return false;
+		}
+		
+		
+		var x = document.forms["myForm"]["pid"].value;
+		if (x == "") 
+		{
+		alert("PID is required....!!!");
+		return false;
+		}
+		else if(isNaN(x))
+		{
+		alert("Patient's ID Should be numeric....!!!");
+		return false;
+		}
+		
+		var x = document.forms["myForm"]["age"].value;
+		if (x == "") 
+		{
+		alert("Age must be filled out");
+		return false;
+		}
+		else if(isNaN(x))
+		{
+		alert("Age Should be a numeric value....!!!");
+		return false;
+		}
+		
+		var x = document.forms["myForm"]["did"].value;
+		if (x == "") 
+		{
+		alert("Doctor Id is required");
+		return false;
+		}
+		else if(isNaN(x))
+		{
+		alert("Doctor's Id Should be numeric....!!!");
+		return false;
+		}
+		
+		
+		var x = document.forms["myForm"]["dname"].value;
+		if (x == "") 
+		{
+		alert("Doctor's name is required");
+		return false;
+		}
+		else if(!isNaN(x))
+		{
+		alert("Name Shouldnt contain a numeric value....!!!");
+		return false;
+		}
+		
+		var x = document.forms["myForm"]["pres"].value;
+		if (x == "") 
+		{
+		alert("Prescription shoiuldnt be empty");
+		return false;
+		}
+		
+				
+	}
+	</script>
+	<body>
+	
+		<div>
+		<h1>Patient's General Data </h1>
+		<form name="myForm" action"/action.php" onsubmit="return validateForm()" method="post">
+			  <label for="pid">Patient ID:</label>
+			  <input type="text" id="pid" name="pid" placeholder="Enter Patient ID">&emsp;&emsp;&emsp;&emsp;&emsp;
+			  <label for="pname">Patient's Name:</label>
+			  <input type="text" id="pname" name="pname" placeholder="Enter Patient's Name"><br><br>
+			  <label for="dob">AGE</label>
+			  <input type="text" id="age" name="age"><br><br>
+			  Patient's Gender:
+			  <input type="text" id="male" name="gender" value="male">
+			  <h1>Alloted Doctor's Data </h1>
+			  <label for="did">Doctor ID:</label>
+			  <input type="text" id="did" name="did" placeholder="Enter Doctor ID">&emsp;&emsp;&emsp;&emsp;&emsp;
+			  <label for="pname">Doctor's Name:</label>
+			  <input type="text" id="dname" name="dname" placeholder="Enter Doctor's Name"><br><br>
+			  <label for="pres">Prescription:</label><br>
+			  <textarea name="message" id ="pres" style="width:600px; height:75px;"></textarea><br><br>
+			  <label for="dop">Amount</label>
+			  <input type="amount" id="amount" name="amount"><br><br>
+			  <center>
+			  <button id="triggerStartApplication" >Submit</button>
+		</form> 
+		</div>
+    </body>
+</html>

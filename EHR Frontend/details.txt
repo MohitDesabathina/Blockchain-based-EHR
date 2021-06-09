@@ -1,0 +1,7 @@
+function myfunc()
+{
+	if (window.confirm("Data Added Successfully..!!")) 
+	{ 
+		window.open("Options.html", "Thanks for Visiting!");
+	}
+}

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Patient's Retrieval Data</title>
+ <style>
+ body 
+	{
+		height: 500px;
+		background-color:#34495e;
+		
+	}
+.hidden { display: none; }
+.sample {
+  width:600px;
+  background-color: #191919;
+  border: 1px solid black;
+  padding: 50px;
+  position:absolute-center;
+  transform: translate(60%,30%);
+  border-radius: 15px;
+  box-shadow: 0 50px 50px;
+   }
+   .form-control{
+   width : 50%;
+   padding:14px 9px;
+   background-color:#191919;
+   outline:none;
+   font-size:18px;
+   color:white;
+   text-align:center;
+   border:2px solid #2ecc71;
+   font-family:'ThreeDDarkShadow',cursive;
+   border-radius:24px;
+   }
+  
+  
+   .controls
+   {
+   border-radius: 24px;
+   text-align:center;	
+   width:50%;
+   }
+   .text-center
+   {
+	color:#00ff55;
+	font-family:'ThreeDDarkShadow',cursive;
+	font-size:25px;
+   }
+   .control-label {
+	font-size: large;
+	color:white;
+   }
+   .form-group
+   {
+   margin-bottom: 25px;
+
+   }
+   .button
+   {
+		  border: 0;
+		  background: none;	
+		  text-align: center;
+		  border: 2px solid #2ecc71;
+		  padding: 14px 25px;
+		  outline: none;
+		  color: white;
+		  border-radius: 24px;
+		  transition: 0.25s;
+		  font-size: 20px;
+		  cursor: pointer;
+		  font-family: 'Libre Baskerville', serif;
+		  width:20%;
+   }
+   .button:hover
+   {
+	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+	background-color: #2ecc71; 
+	color: white; 
+   }
+   .td
+   {
+	background-color:#191919;
+	margin-top:15px;
+	color:white;
+	
+   }
+</style>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+         $(document).ready(function(){
+			 $('#triggerStartApplication').click(function() {
+
+				 var token = 'Bearer'+' '+ localStorage.getItem("someVarKey");
+				var pid = document.getElementById('accountnumber').value;
+				console.log(pid)
+
+				
+				 
+				 let url= "http://localhost:4000/channels/mychannel/chaincodes/myc3?args=["+pid+"]&peer=peer0.org1.example.com&fcn=verifyRecord";
+				 
+				 var xhr = new XMLHttpRequest();
+				xhr.open("GET", url, true);
+				xhr.setRequestHeader('Content-Type', 'application/json');
+				xhr.setRequestHeader('Authorization',token);
+				xhr.send();
+				
+			xhr.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+     var r = this.responseText;
+	 console.log(r);
+	document.getElementById('demo').innerHTML= r;
+	// var someVarName =t.token;
+	
+    }
+	
+	}
+				
+			 });
+			 
+			});
+</script>
+<body>
+
+
+ <div class="sample">
+	
+         <div class="text-center"><center>
+            <h1>Patient's Retrieval Data</h1>
+            <strong> </strong> 
+         </div>
+         <div class="form-group" ><center>
+            <label class="control-label"></label>
+            <div class="controls">
+               <input type="text" 
+                  required
+                  class="form-control" id=accountnumber placeholder="Enter Patient ID"/ 	>
+            </div>
+         </div>
+    
+<center><button id="triggerStartApplication" class="button">Submit</button>
+<center><textarea id="demo" class="td" rows="5" cols="50"></textarea>
+</div>
+</body>
+</html>
